@@ -1,0 +1,39 @@
+#Coding parameters
+# 來源檔案格式 
+SOURCEFORMAT=WAV
+#1/SampleRate * 10000000，625就表示16k的取樣率
+SOURCERATE=625
+# 產生參數型式 MFCC 39維
+# energy (E)
+# delta (D)
+# delta-delta (A)
+# Cepstral Mean Normalisation (Z)
+TARGETKIND=MFCC_Z_E_D_A
+# 音框位移量，10 ms
+TARGETRATE=100000.0 
+
+#frameshift 10ms 
+# HTK可以壓縮產生出來的參數檔
+SAVECOMPRESSED=F 
+# HTK可以在產生的參數檔後頭加上CRC檢查碼，一般設為False
+SAVEWITHCRC=F 
+# 音框大小，32 ms
+WINDOWSIZE=320000.0 
+
+# framesize = 32ms 
+# Use a Hamming window
+USEHAMMING=T
+# Set pre-emphasis coefficient，預強調係數設定
+PREEMCOEF=0.97
+# Number of filterbank channels，在Mel刻度下等分成26個頻帶
+NUMCHANS=26
+# Cepstral liftering coefficient，進行 Cepstral liftering
+CEPLIFTER=22 
+# Number of cepstral parameters，MFCC 參數維度
+NUMCEPS=12 
+# Normalise log energy，音框能量作正規化
+ENORMALIZE=T 
+# Enable natural read order for HTK files
+# NATURALREADORDER=TRUE
+# Enable natural write order for HTK files
+# NATURALWRITEORDER=TRUE
