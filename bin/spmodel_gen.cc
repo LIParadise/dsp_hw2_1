@@ -1,10 +1,10 @@
 #include "stdio.h"
 #include "string.h"
 #include "stdlib.h"
+#include <vector>
+#include <string>
 
-#define FALSE 0
-#define TRUE 1
-
+using namespace std;
 
 
 /***********************************************************/
@@ -49,7 +49,7 @@
 
 int main(int argc, char *argv[])
 {
-	int  myflag=FALSE, CAT=FALSE, STOP=FALSE, START=FALSE;
+	bool myflag=false, CAT=false, STOP=false, START=false;
 	FILE *fp;
 	FILE *outfile;
 	
@@ -64,45 +64,56 @@ int main(int argc, char *argv[])
 	
 	fp = fopen(argv[1], "r");	
 	outfile = fopen(argv[2], "a+");
+  vector<string> myvec;
 
   static const char _myStreamWeight [] = " 1.000000e+00";
 	fprintf(outfile,"~h \"sp\"\n");
-	fprintf(outfile,"<BEGINHMM>\n<NUMSTATES> 3\n<STATE> 2\n");
+	fprintf(outfile,"<BEGINHMM>\n<NUMSTATES> 4\n<STATE> 2\n");
   fprintf(outfile,"<SWEIGHTS> 3\n" );
   fprintf(outfile,"%s", _myStreamWeight );
   fprintf(outfile,"%s", _myStreamWeight );
-  fprintf(outfile,"%s", _myStreamWeight );
+  fprintf(outfile,"%s\n", _myStreamWeight );
  	
  	 		
-	while(STOP==FALSE)
+	while(STOP==false)
 	{
 		fgets(line, 300, fp); 
-		if(strncmp(line,"~h \"sil\"",8)==0) START=TRUE;
-		if(START==TRUE) 
+		if(strncmp(line,"~h \"sil\"",8)==0) START=true;
+		if(START==true) 
 		{	if(strncmp(line,"<STATE> 3",9)==0) 
-			{	myflag=TRUE;
+			{	myflag=true;
 				continue;
 			}
 			if(strncmp(line,"<STATE> 4",9)==0) 
-			{	CAT=FALSE;
-				STOP=TRUE;
+			{	CAT=false;
+				STOP=true;
 				break;
 			}
-      if( myflag == TRUE ){
+      if( myflag == true ){
         if( strncmp( line, "<STREAM>", 8 ) == 0 ){
-          CAT    = TRUE;
-          myflag = FALSE;
+          CAT    = true;
+          myflag = false;
         }
       }
-			if(CAT==TRUE)  	fprintf(outfile,"%s",line);
-			
+			if(CAT==true){ 
+        myvec.push_back( string(line) );
+        fprintf(outfile,"%s",line);
+      }
 		}
 	}
+  fprintf(outfile,"<STATE> 3\n<SWEIGHTS> 3\n" );
+  fprintf(outfile,"%s", _myStreamWeight );
+  fprintf(outfile,"%s", _myStreamWeight );
+  fprintf(outfile,"%s\n", _myStreamWeight );
+  for( auto it : myvec )
+    fprintf( outfile, "%s", it.c_str() );
 
 
-	fprintf(outfile,"<TRANSP> 3\n0.000000e+00 1.000000e+00 0.000000e+00\n");
-	fprintf(outfile,"0.000000e+00 5.000000e-01 5.000000e-01\n");
- 	fprintf(outfile,"0.000000e+00 0.000000e+00 0.000000e+00\n<ENDHMM>\n");
+	fprintf(outfile,"<TRANSP> 4\n" );
+  fprintf(outfile," 0.000000e+00 1.000000e+00 0.000000e+00 0.000000e+00\n");
+	fprintf(outfile," 0.000000e+00 5.000000e-01 5.000000e-01 0.000000e+00\n");
+ 	fprintf(outfile," 0.000000e+00 0.000000e+00 6.000000e-01 4.000000e-01\n");
+ 	fprintf(outfile," 0.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00\n<ENDHMM>\n");
 	fclose(fp);
 	fclose(outfile);
 	return(0);
