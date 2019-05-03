@@ -51,47 +51,47 @@ void silmodel(FILE *, FILE *);
 
 int main(int argc, char *argv[])
 {
-	int  CAT=FALSE, i;
-	FILE *fp;
-	FILE *outfile;
-	
-	char c, entry[90];
-		
-	outfile = fopen(argv[2], "w");
-	
-	for (i=1; i<12; i++) 
-	{    
-		 fp = fopen(argv[1], "r");
-	 	CAT=FALSE;
-	 	while(CAT==FALSE)  
-		{
-	  		fscanf(fp,"%s",entry);
-	  		if(strncmp(entry,"\"hmmdef\"",8)==0) 
-	  		
-	  		{	
-				if(i==1) fprintf(outfile,"~h \"liN\"");
-				if(i==2) fprintf(outfile,"~h \"#i\"");
-				if(i==3) fprintf(outfile,"~h \"#er\"");
-				if(i==4) fprintf(outfile,"~h \"san\"");
-				if(i==5) fprintf(outfile,"~h \"sy\"");
-				if(i==6) fprintf(outfile,"~h \"#u\"");
-				if(i==7) fprintf(outfile,"~h \"liou\"");
-				if(i==8) fprintf(outfile,"~h \"qi\"");
-				if(i==9) fprintf(outfile,"~h \"ba\"");
-				if(i==10) fprintf(outfile,"~h \"jiou\"");
-				if(i==11) { silmodel(fp,outfile);
-					     break; }
-				CAT=TRUE;
-			}
-		}
-		if(CAT==TRUE)
-		{
-	        while((c=getc(fp))!=EOF) fprintf(outfile,"%c",c);		
-		fclose(fp);
-		
-		}
-	}
-	return(0);
+  int  CAT=FALSE, i;
+  FILE *fp;
+  FILE *outfile;
+
+  char c, entry[90];
+
+  outfile = fopen(argv[2], "w");
+
+  for (i=1; i<12; i++) 
+  {    
+    fp = fopen(argv[1], "r");
+    CAT=FALSE;
+    while(CAT==FALSE)  
+    {
+      fscanf(fp,"%s",entry);
+      if(strncmp(entry,"\"hmmdef\"",8)==0) 
+
+      {	
+        if(i==1) fprintf(outfile,"~h \"liN\"");
+        if(i==2) fprintf(outfile,"~h \"#i\"");
+        if(i==3) fprintf(outfile,"~h \"#er\"");
+        if(i==4) fprintf(outfile,"~h \"san\"");
+        if(i==5) fprintf(outfile,"~h \"sy\"");
+        if(i==6) fprintf(outfile,"~h \"#u\"");
+        if(i==7) fprintf(outfile,"~h \"liou\"");
+        if(i==8) fprintf(outfile,"~h \"qi\"");
+        if(i==9) fprintf(outfile,"~h \"ba\"");
+        if(i==10) fprintf(outfile,"~h \"jiou\"");
+        if(i==11) { silmodel(fp,outfile);
+          break; }
+        CAT=TRUE;
+      }
+    }
+    if(CAT==TRUE)
+    {
+      while((c=getc(fp))!=EOF) fprintf(outfile,"%c",c);		
+      fclose(fp);
+
+    }
+  }
+  return(0);
 }
 
 /***********************************************************/
@@ -113,54 +113,64 @@ int main(int argc, char *argv[])
 
 void silmodel(FILE *fp, FILE *outfile)
 {
-	int j=0, k,CAT=FALSE, line_no=0, STOP=FALSE; 
-	char line[1500],buf[7][1500]; /*** ATTENTION: changed from 300 -> 1500***/
-	
-	printf("CREATING SILENCE MODEL\n");
-	fprintf(outfile,"~h \"sil\"\n");
-	fprintf(outfile,"<BEGINHMM>\n<NUMSTATES> 5\n");
-	
-	while(STOP!=TRUE)
-	{
-		fgets(line, 1500, fp); /*** ATTENTION: changed from 300 -> 1500***/
-		if(strncmp(line,"<MEAN>",6)==0) 
-		{
-			if(j==0) CAT=TRUE;
-			else 
-			{
-				CAT=FALSE;
-				STOP=TRUE;
-			}
-			j++;
-		}
-		
-		if(CAT==TRUE)
-			  	
-			{
-				
-				strcpy(buf[line_no++],line); 
-/*				printf("line_no %d ::  %s\n",line_no-1, line);*/
-			}
-		
-	}
-	
-	for(k=2; k<5; k++)
-	{
-	
-		fprintf(outfile,"<STATE> %d\n<NUMMIXES> 1\n",k);
-		
-			
-			for(j=0; j<line_no-1; j++) fputs(buf[j],outfile);
-			/*for(j=0; j<line_no-1; j++) printf("line %d :: %s
-			\n",j,buf[j]);*/
-		
-	}
-	fprintf(outfile,"<TRANSP> 5\n0.000000e+00 1.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00\n");
-	fprintf(outfile,"0.000000e+00 6.000000e-01 4.000000e-01 0.000000e+00 0.000000e+00\n");
- 	fprintf(outfile,"0.000000e+00 0.000000e+00 6.000000e-01 4.000000e-01 0.000000e+00\n");
- 	fprintf(outfile,"0.000000e+00 0.000000e+00 0.000000e+00 7.000000e-01 3.000000e-01\n");
- 	fprintf(outfile,"0.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00\n<ENDHMM>\n");
+  int j=0, k,CAT=FALSE, line_no=0, STOP=FALSE; 
+  char line[1500],buf[7][1500]; /*** ATTENTION: changed from 300 -> 1500***/
+
+  printf("CREATING SILENCE MODEL\n");
+  fprintf(outfile,"~h \"sil\"\n");
+  fprintf(outfile,"<BEGINHMM>\n<NUMSTATES> 5\n");
+
+  while(STOP!=TRUE)
+  {
+    fgets(line, 1500, fp); /*** ATTENTION: changed from 300 -> 1500***/
+    if(strncmp(line,"<MEAN>",6)==0) 
+    {
+      if(j==0) {
+        CAT=TRUE;
+      }else{
+        CAT=FALSE;
+        STOP=TRUE;
+      }
+
+      j++;
+    }
+
+    if(CAT==TRUE){
+
+      strcpy(buf[line_no++],line); 
+      /*				printf("line_no %d ::  %s\n",line_no-1, line);*/
+    }
+
+  }
+
+  for(k=2; k<5; k++)
+  {
+
+    static const char _myInitialValue [] = " 1.000000e+00";
+
+    fprintf(outfile,"<STATE> %d\n", k );
+    fprintf(outfile,"<NUMMIXES> 3 3 3\n" );
+    fprintf(outfile,"<SWEIGHTS> 3\n"  );
+    fprintf(outfile,"%s", _myInitialValue );
+    fprintf(outfile,"%s", _myInitialValue );
+    fprintf(outfile,"%s\n", _myInitialValue );
+
+    fprintf(outfile,"<STREAM> 1\n" );
+    for(j=0; j<line_no-1; j++) fputs(buf[j],outfile);
+
+    fprintf(outfile,"<STREAM> 2\n" );
+    for(j=0; j<line_no-1; j++) fputs(buf[j],outfile);
+
+    fprintf(outfile,"<STREAM> 3\n" );
+    for(j=0; j<line_no-1; j++) fputs(buf[j],outfile);
+
+  }
+  fprintf(outfile,"<TRANSP> 5\n0.000000e+00 1.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00\n");
+  fprintf(outfile,"0.000000e+00 6.000000e-01 4.000000e-01 0.000000e+00 0.000000e+00\n");
+  fprintf(outfile,"0.000000e+00 0.000000e+00 6.000000e-01 4.000000e-01 0.000000e+00\n");
+  fprintf(outfile,"0.000000e+00 0.000000e+00 0.000000e+00 7.000000e-01 3.000000e-01\n");
+  fprintf(outfile,"0.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00\n<ENDHMM>\n");
 
 }	
-	
-	
+
+

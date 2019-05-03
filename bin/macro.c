@@ -60,7 +60,7 @@ int main(int argc, char *argv[])
 		exit(-1);
 	}
 	
-	fprintf(outfile, "~o\n<STREAMINFO> 1 %s\n", argv[1]);
+	fprintf(outfile, "~o\n<STREAMINFO> 3 13 13 13\n");
 	fprintf(outfile, "<VECSIZE> %s\n", argv[1]);
 	fprintf(outfile, "<NULLD>\n<%s>\n", argv[2]);	
 	while((c=getc(fp))!=EOF)
