@@ -49,7 +49,7 @@
 
 int main(int argc, char *argv[])
 {
-	int  CAT=FALSE, STOP=FALSE, START=FALSE;
+	int  myflag=FALSE, CAT=FALSE, STOP=FALSE, START=FALSE;
 	FILE *fp;
 	FILE *outfile;
 	
@@ -65,8 +65,13 @@ int main(int argc, char *argv[])
 	fp = fopen(argv[1], "r");	
 	outfile = fopen(argv[2], "a+");
 
+  static const char _myStreamWeight [] = " 1.000000e+00";
 	fprintf(outfile,"~h \"sp\"\n");
 	fprintf(outfile,"<BEGINHMM>\n<NUMSTATES> 3\n<STATE> 2\n");
+  fprintf(outfile,"<SWEIGHTS> 3\n" );
+  fprintf(outfile,"%s", _myStreamWeight );
+  fprintf(outfile,"%s", _myStreamWeight );
+  fprintf(outfile,"%s", _myStreamWeight );
  	
  	 		
 	while(STOP==FALSE)
@@ -75,7 +80,7 @@ int main(int argc, char *argv[])
 		if(strncmp(line,"~h \"sil\"",8)==0) START=TRUE;
 		if(START==TRUE) 
 		{	if(strncmp(line,"<STATE> 3",9)==0) 
-			{	CAT=TRUE;
+			{	myflag=TRUE;
 				continue;
 			}
 			if(strncmp(line,"<STATE> 4",9)==0) 
@@ -83,6 +88,12 @@ int main(int argc, char *argv[])
 				STOP=TRUE;
 				break;
 			}
+      if( myflag == TRUE ){
+        if( strncmp( line, "<STREAM>", 8 ) == 0 ){
+          CAT    = TRUE;
+          myflag = FALSE;
+        }
+      }
 			if(CAT==TRUE)  	fprintf(outfile,"%s",line);
 			
 		}
