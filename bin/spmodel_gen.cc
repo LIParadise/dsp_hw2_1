@@ -68,7 +68,7 @@ int main(int argc, char *argv[])
 
   static const char _myStreamWeight [] = " 1.000000e+00";
 	fprintf(outfile,"~h \"sp\"\n");
-	fprintf(outfile,"<BEGINHMM>\n<NUMSTATES> 4\n<STATE> 2\n");
+	fprintf(outfile,"<BEGINHMM>\n<NUMSTATES> 5\n<STATE> 2\n");
   fprintf(outfile,"<SWEIGHTS> 3\n" );
   fprintf(outfile,"%s", _myStreamWeight );
   fprintf(outfile,"%s", _myStreamWeight );
@@ -107,13 +107,20 @@ int main(int argc, char *argv[])
   fprintf(outfile,"%s\n", _myStreamWeight );
   for( auto it : myvec )
     fprintf( outfile, "%s", it.c_str() );
+  fprintf(outfile,"<STATE> 4\n<SWEIGHTS> 3\n" );
+  fprintf(outfile,"%s", _myStreamWeight );
+  fprintf(outfile,"%s", _myStreamWeight );
+  fprintf(outfile,"%s\n", _myStreamWeight );
+  for( auto it : myvec )
+    fprintf( outfile, "%s", it.c_str() );
 
 
-	fprintf(outfile,"<TRANSP> 4\n" );
-  fprintf(outfile," 0.000000e+00 1.000000e+00 0.000000e+00 0.000000e+00\n");
-	fprintf(outfile," 0.000000e+00 5.000000e-01 5.000000e-01 0.000000e+00\n");
- 	fprintf(outfile," 0.000000e+00 0.000000e+00 6.000000e-01 4.000000e-01\n");
- 	fprintf(outfile," 0.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00\n<ENDHMM>\n");
+	fprintf(outfile,"<TRANSP> 5\n" );
+  fprintf(outfile," 0.000000e+00 1.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00\n");
+	fprintf(outfile," 0.000000e+00 5.000000e-01 5.000000e-01 0.000000e+00 0.000000e+00\n");
+ 	fprintf(outfile," 0.000000e+00 0.000000e+00 5.000000e-01 5.000000e-01 0.000000e+00\n");
+ 	fprintf(outfile," 0.000000e+00 0.000000e+00 0.000000e+00 5.000000e-01 5.000000e-01\n");
+ 	fprintf(outfile," 0.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00\n<ENDHMM>\n");
 	fclose(fp);
 	fclose(outfile);
 	return(0);
