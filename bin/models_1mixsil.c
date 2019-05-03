@@ -114,11 +114,11 @@ int main(int argc, char *argv[])
 void silmodel(FILE *fp, FILE *outfile)
 {
   int j=0, k,CAT=FALSE, line_no=0, STOP=FALSE; 
-  char line[1500],buf[7][1500]; /*** ATTENTION: changed from 300 -> 1500***/
+  char line[1500],buf[10][1500]; /*** ATTENTION: changed from 300 -> 1500***/
 
   printf("CREATING SILENCE MODEL\n");
   fprintf(outfile,"~h \"sil\"\n");
-  fprintf(outfile,"<BEGINHMM>\n<NUMSTATES> 5\n");
+  fprintf(outfile,"<BEGINHMM>\n<NUMSTATES> 6\n");
 
   while(STOP!=TRUE)
   {
@@ -143,7 +143,7 @@ void silmodel(FILE *fp, FILE *outfile)
 
   }
 
-  for(k=2; k<5; k++)
+  for(k=2; k<6; k++)
   {
 
     static const char _myInitialValue [] = " 1.000000e+00";
@@ -165,11 +165,13 @@ void silmodel(FILE *fp, FILE *outfile)
     for(j=0; j<line_no-1; j++) fputs(buf[j],outfile);
 
   }
-  fprintf(outfile,"<TRANSP> 5\n0.000000e+00 1.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00\n");
-  fprintf(outfile,"0.000000e+00 6.000000e-01 4.000000e-01 0.000000e+00 0.000000e+00\n");
-  fprintf(outfile,"0.000000e+00 0.000000e+00 6.000000e-01 4.000000e-01 0.000000e+00\n");
-  fprintf(outfile,"0.000000e+00 0.000000e+00 0.000000e+00 7.000000e-01 3.000000e-01\n");
-  fprintf(outfile,"0.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00\n<ENDHMM>\n");
+  fprintf(outfile,"<TRANSP> 6\n" );
+  fprintf(outfile,"0.000000e+00 1.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00\n");
+  fprintf(outfile,"0.000000e+00 6.000000e-01 4.000000e-01 0.000000e+00 0.000000e+00 0.000000e+00\n");
+  fprintf(outfile,"0.000000e+00 0.000000e+00 6.000000e-01 4.000000e-01 0.000000e+00 0.000000e+00\n");
+  fprintf(outfile,"0.000000e+00 0.000000e+00 0.000000e+00 6.000000e-01 4.000000e-01 0.000000e+00\n");
+  fprintf(outfile,"0.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00 7.000000e-01 3.000000e-01\n");
+  fprintf(outfile,"0.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00\n<ENDHMM>\n");
 
 }	
 
