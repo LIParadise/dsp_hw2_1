@@ -65,7 +65,7 @@ do
 # increase mixture
 for (( i = 0; i <=5; i++ )) ; do
   HHEd -T 2 -H $macro -H $model -M $mmf_dir lib/mixAdd2_10.hed $model_list
-  for (( j = 0; j <=5; j++ )) ; do
+  for (( j = 0; j <=7; j++ )) ; do
     HERest -C $config -I $label \
       -t 250.0 150.0 1000.0 -S $data_list \
       -H $macro -H $model -M $mmf_dir $model_list
