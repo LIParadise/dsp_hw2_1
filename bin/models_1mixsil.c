@@ -149,7 +149,7 @@ void silmodel(FILE *fp, FILE *outfile)
     static const char _myInitialValue [] = " 1.000000e+00";
 
     fprintf(outfile,"<STATE> %d\n", k );
-    fprintf(outfile,"<NUMMIXES> 3 3 3\n" );
+    fprintf(outfile,"<NUMMIXES> 1 1 1\n" );
     fprintf(outfile,"<SWEIGHTS> 3\n"  );
     fprintf(outfile,"%s", _myInitialValue );
     fprintf(outfile,"%s", _myInitialValue );
